@@ -101,3 +101,12 @@ git commit -m "不要ファイル削除"
 - URLを守りたいなら最新版デプロイ
 
 ================================
+
+## 運用メモ
+
+| 目的 | コマンド |
+|---|---|
+| 状態確認 | git status |
+| 履歴保存 | git add . / git commit |
+| GAS反映 | clasp push |
+| GitHub反映 | git push |
