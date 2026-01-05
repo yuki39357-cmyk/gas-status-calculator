@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ドッカンバトルステータス計算</title>
+</head>
+
+<body>
+    <form
+    oninput=
+    "
+    atkresult1.value=Math.round((Number(ori_atk.value)+Number(senzai_atk.value)+Number(skilldama_atk.value))
+    *(Number(atkreaderskill.value)*2/100+1)
+    *((Number(atkpassive1_1.value)+Number(atkpassive1_2.value)+Number(atksupport.value))/100+1)
+    *(Number(atkpassive2.value)/100+1)
+    *(Number(atkrink.value)/100+1)
+    *(Number(atkactiveskill.value)/100+1)
+    *(Number(atkfield.value)/100+1)
+    *(Number(atkmemory.value)/100+1)
+    *(Number(energy.value))
+    *((Number(atkhissatu1.value)*Number(kaisuu.value)+Number(atkhissatu2.value))/100+0.05*Number(hissatuiryoku.value)+Number(hissatubairitu.value))
+    );
+
+    atkresult2.value=Math.round((Number(ori_atk.value)+Number(senzai_atk.value)+Number(skilldama_atk.value))
+    *(Number(atkreaderskill.value)*2/100+1)
+    *((Number(atkpassive1_1.value)+Number(atkpassive1_2.value)+Number(atksupport.value))/100+1)
+    *(Number(atkrink.value)/100+1)
+    *(Number(atkactiveskill.value)/100+1)
+    *(Number(atkfield.value)/100+1)
+    *(Number(atkmemory.value)/100+1)
+    *(Number(energy.value))
+    *(Number(atkhissatu1.value)*(Number(kaisuu.value))/100+1)
+    );
+
+    defresult1.value=Math.round(Number(Number(ori_def.value)+Number(senzai_def.value)+Number(skilldama_def.value))
+    *(Number(defreaderskill.value)*2/100+1)
+    *((Number(defpassive1_1.value)+Number(defpassive1_2.value)+Number(defsupport.value))/100+1)
+    *(Number(defrink.value)/100+1)
+    *(Number(defactiveskill.value)/100+1)
+    *(Number(deffield.value)/100+1)
+    *(Number(defmemory.value)/100+1)
+    *(Number(defhissatu1.value)*(Number(kaisuu.value))/100+1)
+    );
+
+    defresult2.value=Math.round(Number(Number(ori_def.value)+Number(senzai_def.value)+Number(skilldama_def.value))
+    *(Number(defreaderskill.value)*2/100+1)
+    *((Number(defpassive1_1.value)+Number(defpassive1_2.value)+Number(defsupport.value))/100+1)
+    *(Number(defpassive2.value)/100+1)
+    *(Number(defrink.value)/100+1)
+    *(Number(defactiveskill.value)/100+1)
+    *(Number(deffield.value)/100+1)
+    *(Number(defmemory.value)/100+1)
+    *((Number(defhissatu1.value)*(Number(kaisuu.value))+Number(defhissatu2.value))/100+1)
+    )
+    ">
+    
+        ATK:
+        <input type="number" name="ori_atk" min="0" style="width: 70px;">
+        DEF:
+        <input type="number" name="ori_def" min="0" style="width: 70px;">
+        <br>
+        潜在開放
+        ATK:
+        <input type="number" name="senzai_atk" min="0" style="width: 70px;">
+        DEF:
+        <input type="number" name="senzai_def" min="0" style="width: 70px;">
+        <br>
+        スキル玉
+        ATK:
+        <input type="number" name="skilldama_atk" min="0" style="width: 70px;">
+        DEF:
+        <input type="number" name="skilldama_def" min="0" style="width: 70px;">
+        <br>
+        リーダースキル倍率ATK:
+        <select name="atkreaderskill">
+            <option value="220" selected>220</option>
+            <option value="200">200</option>
+            <option value="180">180</option>
+            <option value="170">170</option>
+            <option value="150">150</option>
+            <option value="130">130</option>
+        </select>
+        ％
+        DEF:
+        <select name="defreaderskill">
+            <option value="220" selected>220</option>
+            <option value="200">200</option>
+            <option value="180">180</option>
+            <option value="170">170</option>
+            <option value="150">150</option>
+            <option value="130">130</option>
+        </select>
+        ％
+        <br>
+        開始時パッシブ①
+        ATK:
+        <input type="number" name="atkpassive1_1" min="0" style="width: 40px;">
+        ％
+        DEF:
+        <input type="number" name="defpassive1_1" min="0" style="width: 40px;">
+        ％
+        <br>
+        開始時パッシブ②
+        ATK:
+        <input type="number" name="atkpassive1_2" min="0" style="width: 40px;">
+        ％
+        DEF:
+        <input type="number" name="defpassive1_2" min="0" style="width: 40px;">
+        ％
+        <br>
+        サポートパッシブ
+        ATK:
+        <input type="number" name="atksupport" min="0" style="width: 40px;">
+        ％
+        DEF:
+        <input type="number" name="defsupport" min="0" style="width: 40px;">
+        ％
+        <br>
+        攻撃直前パッシブ
+        ATK:
+        <input type="number" name="atkpassive2" min="0" style="width: 40px;">
+        ％
+        DEF:
+        <input type="number" name="defpassive2" min="0" style="width: 40px;">
+        ％
+        <br>
+        リンクスキル
+        ATK:
+        <input type="number" name="atkrink" min="0" style="width: 40px;">
+        ％
+        DEF:
+        <input type="number" name="defrink" min="0" style="width: 40px;">
+        ％
+        <br>
+        アクティブスキル
+        ATK:
+        <input type="number" name="atkactiveskill" min="0" style="width: 40px;">
+        ％
+        DEF:
+        <input type="number" name="defactiveskill" min="0" style="width: 40px;">
+        ％
+        <br>
+        フィールド
+        ATK:
+        <input type="number" name="atkfield" min="0" style="width: 40px;">
+        ％
+        DEF:
+        <input type="number" name="deffield" min="0" style="width: 40px;">
+        ％
+        <br>
+        サポートメモリー
+        ATK:
+        <input type="number" name="atkmemory" min="0" style="width: 40px;">
+        ％
+        DEF:
+        <input type="number" name="defmemory" min="0" style="width: 40px;">
+        ％
+        <br>
+        気力補正:
+        <select name="energy">
+            <option value="2" selected>2(LR気力24)</option>
+            <option value="1.8">1.8(LR気力18)</option>
+            <option value="1.6">1.6(LR気力12)</option>
+            <option value="1.5">1.5(UR気力12)</option>
+            <option value="1.4">1.4</option>
+        </select>
+        倍
+        <br>
+        必殺技効果①
+        ATK:
+        <input type="number" name="atkhissatu1" min="0" style="width: 40px;">
+        ％
+        DEF:
+        <input type="number" name="defhissatu1" min="0" style="width: 40px;">
+        ％
+        (前のターンまで)
+        <br>
+        必殺技効果②
+        ATK:
+        <input type="number" name="atkhissatu2" min="0" style="width: 40px;">
+        ％
+        DEF:
+        <input type="number" name="defhissatu2" min="0" style="width: 40px;">
+        ％
+        (このターン)
+        <br>
+        重ねがけ回数:①×
+        <input type="number" name="kaisuu" value="1" min="0" style="width: 40px;">
+        回
+        <br>
+        必殺技威力UP(潜在):
+        <input type="number" name="hissatuiryoku" min="0" style="width: 40px;">
+        <br>
+        必殺技倍率:
+        <select name="hissatubairitu">
+            <option value="6.2">6.2(Lv25超極大)</option>
+            <option value="5.7" selected>5.7(Lv20超極大)</option>
+            <option value="6.3">6.3(Lv15超絶特大)</option>
+            <option value="5.05">5.05(Lv10超絶特大)</option>
+            <option value="4.5">4.5(Lv25極大)</option>
+            <option value="4.25">4.25(Lv20極大)</option>
+        </select>   
+        倍
+        <br>
+
+        <hr>
+        必殺技ATK:
+        <output name="atkresult1"></output>
+        (表示ATK:
+        <output name="atkresult2"></output>
+        )
+        <br>
+        行動前DEF:
+        <output name="defresult1"></output>
+        行動後DEF:
+        <output name="defresult2"></output>
+
+        <br>
+        メモ欄
+        <input type="text">
+        <br>
+        <br>
+        
+        <font size="4"><br>・必殺技効果①②の入力について</font>
+        <br>①は前のターンまでの合計を、②はそのターンに増えた分だけ入力してください。1ターン目の計算や、効果が1ターンのみのものは②に入力してください。
+        <br>※無限上昇を積んだ時の行動前DEFが分かりにくかったのでこのような形にしました。
+        <br>
+
+        <font size="4"><br>・潜在開放(標準成長の場合)</font>
+        <br>属性　ATK　　　DEF  
+        <br>速　　5000　　5400  
+        <br>技　　5400　　5000  
+        <br>知　　5000　　5000  
+        <br>力　　5400　　4600  
+        <br>体　　5000　　4600 
+        <br>
+
+        <font size="4"><br>・ターン開始時パッシブ</font>
+        <br>①ターン開始時に～%UP
+        <br>②敵が～体の時
+        <br>③～番目に攻撃すると
+        <br>④HP～%以上で
+        <br>⑤気玉～個取得につき
+        <br>⑥味方サポート(計算機を作る際に味方サポートは別枠にしたほうが良いと思ったので分けています)
+        <br>
+
+        <font size="4"><br>・攻撃直前パッシブ</font>
+        <br>①必殺技発動時に～
+        <br>②気力メーター～以上で
+        <br>③攻撃を受けると
+        <br>④攻撃するたびに
+        <br>
+        <br>
+        <br>
+        不具合、問い合わせは<a href="https://twitter.com/yu_p39" target="_blank">こちら(Twitter:@yu_p39)</a>にお願いします。
+        <br>
+
+        【更新履歴】
+        <br>
+        2025/1/28　　リーダースキルの220%に対応。デフォルトを220%に変更。
+        <br>
+        2025/1/30　　サポートメモリーの入力欄を追加。
+        <br>
+        2025/2/4　　必殺技効果を①②に分割。
+        <br>
+        2025/2/7　　フィールドの入力欄を追加。
+        <br>2025/12/19　　<a href="https://script.google.com/macros/s/AKfycbyaMoNlzMm-y2kZWjHsHNtVCNO2p-OjvhzYsi5SUm3kWeFNMwT3c0drRQP0TX1VRxB1Jg/exec" target="_blank">詳細版</a>を作成
+
+    </form>
+    </body>
+</html>
