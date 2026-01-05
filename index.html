@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ドッカンバトルステータス計算</title>
+
+    <script>
+        function n(id) {
+            return Number(document.getElementById(id).value) || 0;
+        }
+
+        function rate(p) {
+            return p / 100 + 1;
+        }
+
+        function fmt(num) {
+            return Math.round(num).toLocaleString("ja-JP");
+        }
+
+        function calc() {
+
+            /* ===== ATK ===== */
+            const baseAtk =
+                n("ori_atk") +
+                n("senzai_atk") +
+                n("skilldama_atk");
+
+            const HyouziAtk =
+                baseAtk *
+                rate(n("myreaderskill_atk") * 2) *
+                rate(n("atk_passive_1_1") + n("atk_passive_1_2") + n("atk_support")) *
+                rate(n("atk_rink")) *
+                rate(n("atk_activeskill")) *
+                rate(n("atk_field")) *
+                rate(n("atk_memory") + n("atk_item")) *
+                n("energy");
+
+            const CalcAtk =
+                baseAtk *
+                rate(n("myreaderskill_atk") * 2) *
+                rate(n("atk_passive_1_1") + n("atk_passive_1_2") + n("atk_support")) *
+                rate(n("atk_passive_2")) *
+                rate(n("atk_rink")) *
+                rate(n("atk_activeskill")) *
+                rate(n("atk_field")) *
+                rate(n("atk_memory") + n("atk_item")) *
+                n("energy");
+
+            const hissatuAtk =
+                (n("atk_hissatsu1") * n("kaisuu_1") + n("atk_hissatsu2")) / 100
+                + 0.05 * n("hissatuiryoku")
+                + n("hissatubairitu");
+
+            document.getElementById("atk_result_1").value =
+                fmt(CalcAtk * hissatuAtk);
+
+            document.getElementById("atk_result_2").value =
+                fmt(
+                    HyouziAtk *
+                    rate(n("atk_hissatsu1") * n("kaisuu_1"))
+                );
+
+
+            /* ===== DEF ===== */
+            const baseDef =
+                n("ori_def") +
+                n("senzai_def") +
+                n("skilldama_def");
+
+            document.getElementById("def_result_1").value =
+                fmt(
+                    baseDef *
+                    rate(n("myreaderskill_def") * 2) *
+                    rate(n("def_passive_1_1") + n("def_passive_1_2") + n("def_support")) *
+                    rate(n("def_rink")) *
+                    rate(n("def_activeskill")) *
+                    rate(n("def_field")) *
+                    rate(n("def_memory") + n("def_item")) *
+                    rate(n("def_hissatsu1") * n("kaisuu_1"))
+                );
+
+            document.getElementById("def_result_2").value =
+                fmt(
+                    baseDef *
+                    rate(n("myreaderskill_def") * 2) *
+                    rate(n("def_passive_1_1") + n("def_passive_1_2") + n("def_support")) *
+                    rate(n("def_passive_2")) *
+                    rate(n("def_rink")) *
+                    rate(n("def_activeskill")) *
+                    rate(n("def_field")) *
+                    rate(n("def_memory") + n("def_item")) *
+                    rate(n("def_hissatsu1") * n("kaisuu_1")
+                        + n("def_hissatsu2")
+                    )
+                );
+        }
+    </script>
+
+    <style>
+        /* ===== 共通 ===== */
+        body {
+            font-size: 16x;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 17x;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* ===== input幅 ===== */
+        .w40 {
+            width: 40px;
+        }
+
+        .w70 {
+            width: 70px;
+        }
+
+        input[type="number"],
+        select {
+            box-sizing: border-box;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1 class="title">ステータス計算機　簡易版</h1>
+
+    <form oninput="calc()">
+
+        <!-- 基礎ステータス -->
+        ATK
+        <input type="number" id="ori_atk" class="w70">
+        DEF
+        <input type="number" id="ori_def" class="w70">
+        <br>
+
+        潜在 ATK
+        <input type="number" id="senzai_atk" class="w70">
+        DEF
+        <input type="number" id="senzai_def" class="w70">
+        <br>
+
+        スキル玉 ATK
+        <input type="number" id="skilldama_atk" class="w70">
+        DEF
+        <input type="number" id="skilldama_def" class="w70">
+        <br>
+
+        <!-- リーダースキル -->
+        自リーダー ATK
+        <select id="myreaderskill_atk">
+            <option value="220" selected>220</option>
+            <option value="200">200</option>
+            <option value="180">180</option>
+            <option value="170">170</option>
+            <option value="150">150</option>
+            <option value="130">130</option>
+        </select>％
+
+        DEF
+        <select id="myreaderskill_def">
+            <option value="220" selected>220</option>
+            <option value="200">200</option>
+            <option value="180">180</option>
+            <option value="170">170</option>
+            <option value="150">150</option>
+            <option value="130">130</option>
+        </select>％
+        <br>
+
+        <!-- パッシブ -->
+        開始時パッシブ①
+        ATK
+        <input type="number" id="atk_passive_1_1" class="w40">％
+        DEF
+        <input type="number" id="def_passive_1_1" class="w40">％
+        <br>
+
+        開始時パッシブ②
+        ATK
+        <input type="number" id="atk_passive_1_2" class="w40">％
+        DEF
+        <input type="number" id="def_passive_1_2" class="w40">％
+        <br>
+
+        サポートパッシブ
+        ATK
+        <input type="number" id="atk_support" class="w40">％
+        DEF
+        <input type="number" id="def_support" class="w40">％
+        <br>
+
+        攻撃直前パッシブ
+        ATK
+        <input type="number" id="atk_passive_2" class="w40">％
+        DEF
+        <input type="number" id="def_passive_2" class="w40">％
+        <br>
+
+        <!-- その他補正 -->
+        リンクスキル
+        ATK
+        <input type="number" id="atk_rink" class="w40">％
+        DEF
+        <input type="number" id="def_rink" class="w40">％
+        <br>
+
+        アクティブスキル
+        ATK
+        <input type="number" id="atk_activeskill" class="w40">％
+        DEF
+        <input type="number" id="def_activeskill" class="w40">％
+        <br>
+
+        フィールド
+        ATK
+        <input type="number" id="atk_field" class="w40">％
+        DEF
+        <input type="number" id="def_field" class="w40">％
+        <br>
+
+        サポートメモリー
+        ATK
+        <input type="number" id="atk_memory" class="w40">％
+        DEF
+        <input type="number" id="def_memory" class="w40">％
+        <br>
+
+        アイテム
+        ATK
+        <input type="number" id="atk_item" class="w40">％
+        DEF
+        <input type="number" id="def_item" class="w40">％
+        <br>
+
+        <!-- 必殺関連 -->
+        気力補正:
+        <select id="energy">
+            <option value="2.0" selected>2(LR気力24)</option>
+            <option value="1.8">1.8(LR気力18)</option>
+            <option value="1.6">1.6(LR気力12)</option>
+            <option value="1.5">1.5(UR気力12)</option>
+            <option value="1.4">1.4</option>
+        </select>
+        <br>
+
+        必殺技効果①(変身前)
+        ATK
+        <input type="number" id="atk_hissatsu1" class="w40">％
+        DEF
+        <input type="number" id="def_hissatsu1" class="w40">％
+        <br>
+
+        　×重ねがけ回数
+        <input type="number" id="kaisuu_1" value="1" class="w40">
+        <br>
+
+        必殺技効果②(1ターンのみ)
+        ATK
+        <input type="number" id="atk_hissatsu2" class="w40">％
+        DEF
+        <input type="number" id="def_hissatsu2" class="w40">％
+        <br>
+
+
+        必殺技威力UP(潜在):
+        <input type="number" id="hissatuiryoku" class="w40">
+        <br>
+
+        必殺技倍率
+        <select id="hissatubairitu">
+            <option value="5.7" selected>5.7(Lv20超極大)</option>
+            <option value="6.2">6.2(Lv25超極大)</option>
+            <option value="6.3">6.3(Lv15超絶特大)</option>
+            <option value="5.05">5.05(Lv10超絶特大)</option>
+            <option value="4.5">4.5(Lv25極大)</option>
+            <option value="4.25">4.25(Lv20極大)</option>
+        </select>
+
+        <hr>
+
+        <!-- 結果表示 -->
+        必殺技ATK
+        <output id="atk_result_1"></output>
+        （表示ATK
+        <output id="atk_result_2"></output>）
+        <br>
+
+        行動前DEF
+        <output id="def_result_1"></output>
+
+        行動後DEF
+        <output id="def_result_2"></output>
+
+    </form>
+    <hr>
+    <br>
+    ・必殺技効果①②の入力について
+    <br>
+    ①は変身前、②は変身後の無限上昇、③はそのターンのみ上昇する効果を入力してください。
+    <br>
+    ①と②は同じ扱いなので非変身キャラはどちらを使っても構いません。
+    <br>
+    <br>
+
+    <p class="section-title">・潜在解放（標準成長）</p>
+    属性　ATK　　DEF
+    <br>
+    速　　5000　　5400
+    <br>
+    技　　5400　　5000
+    <br>
+    知　　5000　　5000
+    <br>
+    力　　5400　　4600
+    <br>
+    体　　5000　　4600
+    <br>
+    <br>
+    <p class="section-title">・ターン開始時パッシブ</p>
+    ①ターン開始時
+    <br>
+    ②敵が～体の時
+    <br>
+    ③～番目に攻撃すると/～の敵を攻撃すると
+    <br>
+    ④HP～%以上で
+    <br>
+    ⑤気玉～個取得につき
+    <br>
+    ⑥味方サポート
+    <br>
+    <br>
+
+    <p class="section-title">・攻撃直前パッシブ</p>
+    ①～で攻撃時/必殺技発動時
+    <br>
+    ②攻撃・必殺・被弾・回避・ガードなどの「特定行動をすると・するたび」
+    <br>
+    ③「アクティブ・チャージフィニッシュ発動時」
+    <br>
+    ④ターン終了時
+    <br>
+    <br>
+    <br>
+
+    <p class="section-title">【更新履歴】</p>
+    <br>
+    2025/1/28　　リーダースキルの220%に対応。デフォルトを220%に変更。
+    <br>
+    2025/1/30　　サポートメモリーの入力欄を追加。
+    <br>
+    2025/2/4　　必殺技効果を①②に分割。
+    <br>
+    2025/2/7　　フィールドの入力欄を追加。
+    <br>
+    2025/12/29　　計算機詳細版を作成。
+    <br>
+    2026/01/05　　内部処理を改善（動作に変更はありません）。
+    <br>
+    <br>
+    不具合、問い合わせは<a href="https://twitter.com/yu_p39" target="_blank">こちら(Twitter:@yu_p39)</a>にお願いします。
+
+</body>
+
+</html>

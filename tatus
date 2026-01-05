@@ -1,0 +1,17 @@
+[33mcommit ba1c918b09263f2c55da74c604f300b92cd9ba4e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: yuki <yuki39357@gmail.com>
+Date:   Mon Jan 5 19:23:00 2026 +0900
+
+    save current working version before rewrite
+
+[33mcommit d6bdbeeec3ce8dfa51b57c7c049b5d24362aa99a[m
+Author: yuki <yuki39357@gmail.com>
+Date:   Mon Jan 5 18:55:26 2026 +0900
+
+    enable Apps Script API
+
+[33mcommit b8360586329aa71d7fbec1828c0804dc39c725cb[m
+Author: yuki <yuki39357@gmail.com>
+Date:   Mon Jan 5 18:45:37 2026 +0900
+
+    initial commit
